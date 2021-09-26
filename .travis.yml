@@ -11,8 +11,8 @@ script:
 after_success:
   - docker build -t rems675/multi-client ./client
   - docker build -t rems675/multi-nginx ./nginx
-  - docker build -t rems675/multi-client ./server
-  - docker build -t rems675/multi-client ./worker
+  - docker build -t rems675/multi-server ./server
+  - docker build -t rems675/multi-worker ./worker
 #log into the docker hub with docker ID
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
 #Take those images and push them to docker hub
