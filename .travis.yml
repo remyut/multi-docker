@@ -1,0 +1,25 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t remy/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true remy/react-test npm run test
+
+after_success:
+  - docker build -t rems675/multi-client ./client
+  - docker build -t remy675/multi-nginx ./nginx
+  - docker build -t remy675/multi-client ./server
+  - docker build -t remy675/multi-client ./worker
+#log into the docker hub with docker ID
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+#Take those images and push them to docker hub
+  - docker push rems675/multi-client
+  - docker push rems675/multi-nginx
+  - docker push rems675/multi-server
+  - docker push rems675/multi-worker
+
+
+
